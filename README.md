@@ -73,8 +73,6 @@ mvn -q org.codehaus.mojo:exec-maven-plugin:3.5.0:java -Dexec.mainClass=edu.hitsz
 
 测试目录：`src/test/java/edu/hitsz/aircraft/HeroAircraftTest.java`
 
-如果使用 Maven 跑测试，通常需要 JUnit Jupiter Engine；如遇到“无法发现/执行测试”，可在 `pom.xml` 中补充 `junit-jupiter-engine`（本仓库目前仅包含 `junit-jupiter-api`）。
-
 ## 常见问题
 
 1. **资源找不到 / 图片加载失败 / 音效找不到**
