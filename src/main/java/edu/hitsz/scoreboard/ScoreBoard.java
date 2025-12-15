@@ -9,9 +9,9 @@ public class ScoreBoard implements ScoreRecordDao {
     private final File dataFile ;
 
     public ScoreBoard(String mode) {
-        this.dataFile = "EASY".equals(mode)? new File("src/main/resources/logs/score_easy.txt"):
-                "NORMAL".equals(mode)? new File("src/main/resources/logs/score_normal.txt"):
-                        new File("src/main/resources/logs/score_hard.txt");
+        this.dataFile = "EASY".equals(mode)? new File("src/records/score_easy.txt"):
+                "NORMAL".equals(mode)? new File("src/records/score_normal.txt"):
+                        new File("src/records/score_hard.txt");
         loadFromFile();
     }
 
