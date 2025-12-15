@@ -1,6 +1,6 @@
 package edu.hitsz.application;
 
-
+import java.io.InputStream;
 import edu.hitsz.aircraft.HeroAircraft;
 import edu.hitsz.aircraft.enemy.MobEnemy;
 import edu.hitsz.aircraft.enemy.EliteEnemy;
@@ -15,7 +15,6 @@ import edu.hitsz.prop.BombProp;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -53,22 +52,21 @@ public class ImageManager {
     static {
         try {
 
-            EASY_MODE_BACKGROUND_IMAGE = ImageIO.read(new FileInputStream("src/main/resources/images/bg.jpg"));
-            NORMAL_MODE_BACKGROUND_IMAGE = ImageIO.read(new FileInputStream("src/main/resources/images/bg2.jpg"));
-            HARD_MODE_BACKGROUND_IMAGE = ImageIO.read(new FileInputStream("src/main/resources/images/bg5.jpg"));
+            EASY_MODE_BACKGROUND_IMAGE = loadImageFromResources("/images/bg.jpg");
+            NORMAL_MODE_BACKGROUND_IMAGE = loadImageFromResources("/images/bg2.jpg");
+            HARD_MODE_BACKGROUND_IMAGE = loadImageFromResources("/images/bg5.jpg");
 
-            HERO_IMAGE = ImageIO.read(new FileInputStream("src/main/resources/images/hero.png"));
-            MOB_ENEMY_IMAGE = ImageIO.read(new FileInputStream("src/main/resources/images/mob.png"));
-            ELITE_ENEMY_IMAGE = ImageIO.read(new FileInputStream("src/main/resources/images/elite.png"));
-            ELITE_PLUS_ENEMY_IMAGE = ImageIO.read(new FileInputStream("src/main/resources/images/elitePlus.png"));
-            BOSS_ENEMY_IMAGE = ImageIO.read(new FileInputStream("src/main/resources/images/boss.png"));
-            HERO_BULLET_IMAGE = ImageIO.read(new FileInputStream("src/main/resources/images/bullet_hero.png"));
-            ENEMY_BULLET_IMAGE = ImageIO.read(new FileInputStream("src/main/resources/images/bullet_enemy.png"));
-            BLOOD_PROP_IMAGE = ImageIO.read(new FileInputStream("src/main/resources/images/prop_blood.png"));
-            FIRE_PROP_IMAGE = ImageIO.read(new FileInputStream("src/main/resources/images/prop_bullet.png"));
-            FIRE_PLUS_PROP_IMAGE = ImageIO.read(new FileInputStream("src/main/resources/images/prop_bulletPlus.png"));
-            BOMB_PROP_IMAGE = ImageIO.read(new FileInputStream("src/main/resources/images/prop_bomb.png"));
-
+            HERO_IMAGE = loadImageFromResources("/images/hero.png");
+            MOB_ENEMY_IMAGE = loadImageFromResources("/images/mob.png");
+            ELITE_ENEMY_IMAGE = loadImageFromResources("/images/elite.png");
+            ELITE_PLUS_ENEMY_IMAGE = loadImageFromResources("/images/elitePlus.png");
+            BOSS_ENEMY_IMAGE = loadImageFromResources("/images/boss.png");
+            HERO_BULLET_IMAGE = loadImageFromResources("/images/bullet_hero.png");
+            ENEMY_BULLET_IMAGE = loadImageFromResources("/images/bullet_enemy.png");
+            BLOOD_PROP_IMAGE = loadImageFromResources("/images/prop_blood.png");
+            FIRE_PROP_IMAGE = loadImageFromResources("/images/prop_bullet.png");
+            FIRE_PLUS_PROP_IMAGE = loadImageFromResources("/images/prop_bulletPlus.png");
+            BOMB_PROP_IMAGE = loadImageFromResources("/images/prop_bomb.png");
             CLASSNAME_IMAGE_MAP.put(HeroAircraft.class.getName(), HERO_IMAGE);
             CLASSNAME_IMAGE_MAP.put(MobEnemy.class.getName(), MOB_ENEMY_IMAGE);
             CLASSNAME_IMAGE_MAP.put(EliteEnemy.class.getName(), ELITE_ENEMY_IMAGE);
@@ -96,6 +94,14 @@ public class ImageManager {
             return null;
         }
         return get(obj.getClass().getName());
+    }
+    private static BufferedImage loadImageFromResources(String resourcePath) throws IOException {
+        try (InputStream in = ImageManager.class.getResourceAsStream(resourcePath)) {
+            if (in == null) {
+                throw new IOException("Resource not found: " + resourcePath);
+            }
+            return ImageIO.read(in);
+        }
     }
 
 }

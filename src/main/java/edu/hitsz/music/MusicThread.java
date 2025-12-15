@@ -2,7 +2,6 @@ package edu.hitsz.music;
 
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -41,7 +40,9 @@ public class MusicThread extends Thread {
     public void reverseMusic() {
         try {
             //定义一个AudioInputStream用于接收输入的音频数据，使用AudioSystem来获取音频的音频输入流
-            AudioInputStream stream = AudioSystem.getAudioInputStream(new File(filename));
+            var url = MusicThread.class.getResource(filename);
+            if (url == null) throw new IOException("Resource not found: " + filename);
+            AudioInputStream stream = AudioSystem.getAudioInputStream(url);
             //用AudioFormat来获取AudioInputStream的格式
             audioFormat = stream.getFormat();
             samples = getSamples(stream);
@@ -117,7 +118,7 @@ public class MusicThread extends Thread {
 
     @Override
     public void run() {
-        if("src/main/resources/videos/bomb_explosion.wav".equals(filename)) {
+        if("/videos/bomb_explosion.wav".equals(filename)) {
             try {
                 Thread.sleep(500);
             } catch (InterruptedException e) {

@@ -1,84 +1,95 @@
-# AircraftWar-base（飞机大战）
+# Aircraft War (飞机大战)
 
-基于 Java Swing 的简易“飞机大战”项目（Maven 工程）。启动后进入开始菜单，可选择难度与音效开关；游戏结束后自动跳转到排行榜界面，并将成绩持久化到文本文件。
+这是一个基于 Java Swing 开发的经典“飞机大战”桌面游戏。玩家通过鼠标控制英雄机，击败不断来袭的敌机，获取道具增强火力，并挑战更高的分数。
 
-## 运行环境
+## ✨ 功能特性
 
-- JDK：项目 `pom.xml` 目前设置为 **Java 25**（`maven.compiler.source/target=25`）
-- Maven：建议 3.8+（或使用 IDE 自带 Maven）
-- OS：Windows/macOS/Linux 均可（本仓库资源路径为相对路径，见“常见问题”）
+*   **多重难度**：提供简单、普通、困难三种模式，满足不同水平玩家的需求。
+    *   **简单模式**：敌机数量固定，适合新手。
+    *   **普通/困难模式**：随着分数增加，难度动态提升（敌机数量增加、射击频率加快）。
+*   **丰富道具**：
+    *   ❤️ **回血道具**：恢复英雄机生命值。
+    *   💣 **炸弹道具**：清屏，消灭当前所有非 Boss 敌机和子弹。
+    *   🔥 **火力道具**：升级子弹发射模式（直射 -> 散射 -> 环绕）。
+*   **多样敌机**：包含普通敌机、精英敌机、Boss 敌机等多种类型。
+*   **排行榜**：游戏结束后自动记录分数，支持按难度分别查看历史高分（数据持久化存储）。
+*   **音效系统**：支持背景音乐及战斗音效的开关控制。
 
-## 快速开始
+## 🛠 技术栈
 
-### 方式一：IDE 直接运行（推荐）
+*   **编程语言**: Java 25
+*   **构建工具**: Maven
+*   **GUI 框架**: Java Swing
+*   **测试框架**: JUnit 5
+*   **工具库**: Apache Commons Lang3
 
-1. 使用 IntelliJ IDEA / VS Code（Java 扩展）打开工程根目录。
-2. 等待 Maven 依赖下载完成。
-3. 运行主类：`edu.hitsz.application.Main`
+## 📐 设计模式
 
-### 方式二：命令行运行（Maven Exec）
+本项目在开发中广泛应用了多种设计模式，以提高代码的可维护性和扩展性：
 
-在工程根目录执行：
+*   **单例模式 (Singleton)**
+    *   应用：[`edu.hitsz.aircraft.HeroAircraft`](src/main/java/edu/hitsz/aircraft/HeroAircraft.java)
+    *   说明：确保游戏中只有一个英雄机实例。
+*   **工厂模式 (Factory)**
+    *   应用：[`edu.hitsz.factory`](src/main/java/edu/hitsz/factory) 包下的各类工厂（如 `EnemyFactory`, `PropFactory`）。
+    *   说明：封装对象的创建逻辑，方便扩展新的敌机或道具类型。
+*   **策略模式 (Strategy)**
+    *   应用：[`edu.hitsz.strategy.shoot.ShootStrategy`](src/main/java/edu/hitsz/strategy/shoot/ShootStrategy.java)
+    *   说明：定义了直射、散射、环绕等多种射击策略，使英雄机或敌机可以灵活切换攻击方式。
+*   **模板方法模式 (Template Method)**
+    *   应用：[`edu.hitsz.application.Game`](src/main/java/edu/hitsz/application/Game.java) 及其子类 (`EasyGame`, `NormalGame`, `HardGame`)。
+    *   说明：在父类中定义游戏主循环的骨架，将难度相关的具体实现（如最大敌机数、产生周期）留给子类实现。
+*   **数据访问对象模式 (DAO)**
+    *   应用：[`edu.hitsz.scoreboard.ScoreRecordDao`](src/main/java/edu/hitsz/scoreboard/ScoreRecordDao.java)
+    *   说明：将排行榜数据的持久化操作（读写文件）与业务逻辑分离。
+
+## 🚀 快速开始
+
+### 环境要求
+
+*   **JDK**: 25 或更高版本
+*   **Maven**: 3.8+
+
+### 方式一：使用 IDE 运行 (推荐)
+
+1.  使用 IntelliJ IDEA 或 VS Code 打开项目根目录。
+2.  等待 Maven 依赖下载完成。
+3.  找到主类 [`edu.hitsz.application.Main`](src/main/java/edu/hitsz/application/Main.java) 并运行。
+
+### 方式二：命令行运行
+
+在项目根目录下执行以下 Maven 命令：
 
 ```bash
 mvn -q org.codehaus.mojo:exec-maven-plugin:3.5.0:java -Dexec.mainClass=edu.hitsz.application.Main
 ```
 
-> 说明：当前 `pom.xml` 未内置可执行 jar 打包配置，使用 `exec-maven-plugin` 能自动拼好运行时 classpath（包含依赖）。
+## 🎮 游戏操作
 
-## 玩法与界面说明
+*   **移动**：移动鼠标控制英雄机位置。
+*   **攻击**：英雄机自动发射子弹。
+*   **道具获取**：击败 **精英敌机** 或 **Boss** 有概率掉落道具，移动触碰即可拾取。
 
-- 开始菜单：
-	- 难度：简单 / 普通 / 困难
-	- 音效：开 / 关（背景音乐、Boss 音乐、拾取/命中/爆炸等）
-- 操作方式：鼠标控制英雄机移动（英雄机自动射击）。
-- 结算与排行榜：英雄机生命值归零后，自动跳转排行榜界面；排行榜按模式分别记录到文本文件。
+## 📂 项目结构
 
-### 难度差异（代码实现）
+```text
+src/main/java/edu/hitsz/
+├── aircraft/      # 飞行器类（英雄机、敌机）
+├── application/   # 应用程序入口、游戏主循环、难度控制
+├── basic/         # 基础抽象类
+├── bullet/        # 子弹类
+├── factory/       # 工厂类（创建敌机、子弹、道具）
+├── layout/        # 界面布局（开始菜单、排行榜）
+├── music/         # 音频控制
+├── prop/          # 道具类
+├── scoreboard/    # 排行榜数据处理
+└── strategy/      # 策略类（射击策略）
+```
 
-- 简单：敌机最大数量固定为 5。
-- 普通/困难：会随分数动态提升难度（敌机最大数量增加、敌机/英雄射击周期缩短等）。
+## ❓ 常见问题
 
-## 项目结构
+**Q: 启动时报错 "java: 错误: 不支持发行版本 25"**
+A: 请确保您的 JDK 版本至少为 25。如果使用 IDE，请检查项目结构设置中的 SDK 版本和语言级别。或者修改 pom.xml 中的 `maven.compiler.source` 和 `maven.compiler.target` 为您本地的 JDK 版本（如 17 或 21）。
 
-核心目录（`src/main/java/edu/hitsz`）：
-
-- `application/`：程序入口与游戏主循环
-	- `Main`：创建窗口与 CardLayout，负责开始菜单/游戏/排行榜页面切换
-	- `Game`：游戏主面板与主循环（对象生成、移动、碰撞、结算、重绘）
-	- `EasyGame`/`NormalGame`/`HardGame`：不同难度配置（模板方法/策略式参数覆写）
-- `aircraft/`：飞机相关（英雄机、敌机）
-- `bullet/`：子弹对象
-- `prop/`：道具对象（回血、炸弹、火力等）
-- `factory/`：工厂体系（创建敌机/子弹/道具）
-- `strategy/shoot/`：射击策略（不同散射/环绕等发射模式）
-- `music/`：音效播放控制
-- `layout/`：Swing 界面布局（开始菜单、排行榜布局）
-- `scoreboard/`：排行榜数据结构与持久化（读取/写入日志文件）
-
-资源目录：
-
-- `src/main/resources/images/`：图片资源
-- `src/main/resources/videos/`：音效资源（wav）
-- `src/main/resources/logs/`：排行榜数据文件（不同模式分文件存储）
-
-## 设计要点（与代码对应）
-
-- 单例：`HeroAircraft.getHeroAircraft()` 保证英雄机唯一实例。
-- 工厂：`factory/*` 负责按规则生成敌机/道具/子弹。
-- 策略：`strategy/shoot/*` 抽象不同射击模式，降低耦合。
-- 模板方法：`Game` 统一主循环流程，子类通过覆写参数方法改变难度。
-
-## 测试
-
-测试目录：`src/test/java/edu/hitsz/aircraft/HeroAircraftTest.java`
-
-## 常见问题
-
-1. **资源找不到 / 图片加载失败 / 音效找不到**
-	 - 该项目通过类似 `src/main/resources/...` 的相对路径读取资源（见 `ImageManager`、`MusicController`）。
-	 - 请确保“工作目录（Working Directory）”为工程根目录运行。
-
-2. **编译提示不支持的 release 版本（Java 25）**
-	 - 说明当前 JDK 版本低于 25；可切换到 JDK 25，或将 `pom.xml` 的 `maven.compiler.source/target` 改为你本地 JDK 版本。
-
+**Q: 图片或音效无法加载**
+A: 游戏资源加载依赖于工作目录。请确保运行时的“工作目录 (Working Directory)”设置为项目的根目录（即包含 pom.xml 的目录）。

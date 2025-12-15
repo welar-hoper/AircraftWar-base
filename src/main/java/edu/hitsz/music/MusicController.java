@@ -15,7 +15,7 @@ public class MusicController {
         if(!enabled) {
             return;
         }
-        backgroundMusic = new MusicThread("src/main/resources/videos/bgm.wav", MusicThread.PlayMode.LOOP);
+        backgroundMusic = new MusicThread("/videos/bgm.wav", MusicThread.PlayMode.LOOP);
         backgroundMusic.start();
     }
 
@@ -32,7 +32,7 @@ public class MusicController {
         if(!enabled) {
             return;
         }
-        bossMusic = new MusicThread("src/main/resources/videos/bgm_boss.wav", MusicThread.PlayMode.LOOP);
+        bossMusic = new MusicThread("/videos/bgm_boss.wav", MusicThread.PlayMode.LOOP);
         bossMusic.start();
     }
 
@@ -49,7 +49,7 @@ public class MusicController {
         if(!enabled) {
             return;
         }
-        bulletHitMusic = new MusicThread("src/main/resources/videos/bullet_hit.wav", MusicThread.PlayMode.ONCE);
+        bulletHitMusic = new MusicThread("/videos/bullet_hit.wav", MusicThread.PlayMode.ONCE);
         bulletHitMusic.start();
     }
 
@@ -58,7 +58,7 @@ public class MusicController {
         if(!enabled) {
             return;
         }
-        gameOverMusic = new MusicThread("src/main/resources/videos/game_over.wav", MusicThread.PlayMode.ONCE);
+        gameOverMusic = new MusicThread("/videos/game_over.wav", MusicThread.PlayMode.ONCE);
         gameOverMusic.start();
     }
 
@@ -66,7 +66,7 @@ public class MusicController {
         if(!enabled) {
             return;
         }
-        getSupplyMusic = new MusicThread("src/main/resources/videos/get_supply.wav", MusicThread.PlayMode.ONCE);
+        getSupplyMusic = new MusicThread("/videos/get_supply.wav", MusicThread.PlayMode.ONCE);
         getSupplyMusic.start();
     }
 
@@ -74,7 +74,7 @@ public class MusicController {
         if(!enabled) {
             return;
         }
-        bombExplosionMusic = new MusicThread("src/main/resources/videos/bomb_explosion.wav", MusicThread.PlayMode.ONCE);
+        bombExplosionMusic = new MusicThread("/videos/bomb_explosion.wav", MusicThread.PlayMode.ONCE);
         //bombExplosionMusic.sleep(100);
         bombExplosionMusic.start();
     }
