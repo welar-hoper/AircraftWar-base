@@ -89,7 +89,7 @@ src/main/java/edu/hitsz/
 ## ❓ 常见问题
 
 **Q: 启动时报错 "java: 错误: 不支持发行版本 25"**
-A: 请确保您的 JDK 版本至少为 25。如果使用 IDE，请检查项目结构设置中的 SDK 版本和语言级别。或者修改 pom.xml 中的 `maven.compiler.source` 和 `maven.compiler.target` 为您本地的 JDK 版本（如 17 或 21）。
+**A: 请确保您的 JDK 版本至少为 25。如果使用 IDE，请检查项目结构设置中的 SDK 版本和语言级别。或者修改 pom.xml 中的 `maven.compiler.source` 和 `maven.compiler.target` 为您本地的 JDK 版本（如 17 或 21）。**
 
 **Q: 图片或音效无法加载**
-A: 游戏资源加载依赖于工作目录。请确保运行时的“工作目录 (Working Directory)”设置为项目的根目录（即包含 pom.xml 的目录）。
+**A: 游戏资源加载依赖于工作目录。请确保运行时的“工作目录 (Working Directory)”设置为项目的根目录（即包含 pom.xml 的目录）。**
